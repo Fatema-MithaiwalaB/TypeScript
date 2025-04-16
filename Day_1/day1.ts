@@ -1,7 +1,7 @@
 interface Address{
+    street : string
     city : string;
     pincode : number;
-    street : string
 }
 
 interface PersonInfo {
@@ -10,29 +10,50 @@ interface PersonInfo {
     age : number;
     address: Address;
     contactNumbers: string[];
+    getFullName(): string;
+    getFullAddress(): string;
 }
 
-var person: PersonInfo = {
-    firstName: "John",
-    lastName: "Doe",
-    age: 50,
-    address: {
+class Person implements PersonInfo{
+    firstName : string;
+    lastName : string;
+    age : number;
+    address: Address;
+    contactNumbers: string[];
+
+    constructor(firstName : string,
+    lastName : string,
+    age : number,
+    address: Address,
+        contactNumbers: string[]) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.address = address;
+        this.contactNumbers = contactNumbers;
+    }
+
+    getFullName(): string {
+        return `${this.firstName} ${this.lastName}`;
+    }
+
+    getFullAddress(): string {
+        return `${this.address.street} ${this.address.city} ${this.address.pincode}`;
+    }
+}
+
+const person =  new Person (
+    "John",
+    "Doe",
+    50,
+    {
         street: "13-A, Main street",
         city: "Ahmedabad",
         pincode: 123456
     },
-    contactNumbers: ["1234567890", "9876543210"]
-};
+    ["1234567890", "9876543210"]
+);
  
-function getFullName(personInfo: PersonInfo)
-{
-    return personInfo.firstName + " " + personInfo.lastName;
-}
 
-function getFullAddress(person: PersonInfo)
-{
-    return person.address.street + " " + person.address.city + " " + person.address.pincode;
-}
-
-console.log("Full name : " + getFullName(person));
-console.log("Full Address : " + getFullAddress(person));
+console.log("Full name : " + person.getFullName());
+console.log("Full Address : " + person.getFullAddress());
